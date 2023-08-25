@@ -1,11 +1,12 @@
+import React from 'react'
+import Login from "./pages/Login";
 
 const App = () => {
-
   return (
     <>
-     <h1>Employee Management System</h1>
+      <Login />
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;
