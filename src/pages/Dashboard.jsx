@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Home from "./Home";
+
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 const Dashboard = () => {
@@ -46,7 +48,9 @@ const Dashboard = () => {
             </ul>
           </div>
         </div>
-        <div className="col py-3">Content area...</div>
+        <div className="col py-3 px-10">
+        <Home />
+        </div>
       </div>
     </div>
   );
