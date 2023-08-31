@@ -4,15 +4,18 @@ import apiService from "../common/api.js";
 
 const Employees = () => {
   const [data, setData] = useState([]);
+  const [error, setError] = useState("")
 
   useEffect(() => {
     const getAllEmployees = async () => {
       try {
-        const {data} = await apiService.getEmployees();
+        const { data } = await apiService.getEmployees();
         const dataResult = data.result;
-        setData(dataResult)
+        setData(dataResult);
       } catch (error) {
-        console.log(error.message);
+        if(error.response){
+          setError(error.response.data.message)
+        }
       }
     };
     getAllEmployees();
@@ -24,9 +27,9 @@ const Employees = () => {
         <h3>Employee List</h3>
       </div>
       <div className="d-flex justify-content-end my-1">
-      <Link to="/employees/add" className="d-flex btn btn-success mb-2 ">
-        Add employee
-      </Link>
+        <Link to="/employees/add" className="d-flex btn btn-success mb-2 ">
+          Add employee
+        </Link>
       </div>
       <table className="table border">
         <thead className="bg-info">
@@ -39,16 +42,19 @@ const Employees = () => {
           </tr>
         </thead>
         <tbody>
-          {data.map((element,index) => {
-            return <tr key={index}>
-              <td>{element.firstName}</td>
-              <td>{element.lastName}</td>
-              <td>{element.email}</td>
-              <td>{element.address}</td>
-            </tr>
+          {data.map((element, index) => {
+            return (
+              <tr key={index}>
+                <td>{element.firstName}</td>
+                <td>{element.lastName}</td>
+                <td>{element.email}</td>
+                <td>{element.address}</td>
+              </tr>
+            );
           })}
         </tbody>
       </table>
+      <div className="text-danger small">{error && <p>{error}</p>}</div>
     </div>
   );
 };
