@@ -6,6 +6,10 @@ const login = (data) => {
   return axios.post(`${baseUrl}/login`, data);
 };
 
+const getUsers = async() => {
+  return await axios.get(`${baseUrl}/users`)
+}
+
 const addEmployee = async (data) => {
   return await axios.post(`${baseUrl}/employee/create`, data);
 };
@@ -15,6 +19,7 @@ const getEmployees = async () => {
 };
 const apiService = {
   login,
+  getUsers,
   addEmployee,
   getEmployees,
 };
