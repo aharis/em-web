@@ -1,6 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import Home from "./Home";
+import { Link, Outlet } from "react-router-dom";
 
 import "bootstrap-icons/font/bootstrap-icons.css";
 
@@ -22,7 +21,7 @@ const Dashboard = () => {
             >
               <li>
                 <Link
-                  to="/dashboard"
+                  to="/"
                   data-bs-toggle="collapse"
                   className="nav-link px-0 align-middle"
                 >
@@ -40,16 +39,16 @@ const Dashboard = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/profile" className="nav-link px-0 align-middle">
+                <Link to="/admin-profile" className="nav-link px-0 align-middle">
                 <i className="fs-4 bi-person"></i>{" "}
-                  <span className="ms-1 d-none d-sm-inline">Peofile</span>{" "}
+                  <span className="ms-1 d-none d-sm-inline">Admin peofile</span>{" "}
                 </Link>
               </li>             
             </ul>
           </div>
         </div>
         <div className="col py-3 px-10">
-        <Home />
+        <Outlet />
         </div>
       </div>
     </div>
