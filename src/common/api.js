@@ -17,11 +17,17 @@ const addEmployee = async (data) => {
 const getEmployees = async () => {
  return await axios.get(`${baseUrl}/employee`);
 };
+
+const deleteEmployee = async(id) => {
+  return await axios.delete(`${baseUrl}/employee/${id}`)
+}
+
 const apiService = {
   login,
   getUsers,
   addEmployee,
   getEmployees,
+  deleteEmployee
 };
 
 export default apiService;
