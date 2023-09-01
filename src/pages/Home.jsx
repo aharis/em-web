@@ -3,7 +3,7 @@ import apiService from "../common/api";
 
 const Home = () => {
   const [data, setData] = useState([]);
-  const [error, setError] = useState("")
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const getUsers = async () => {
@@ -12,8 +12,8 @@ const Home = () => {
         const dataResult = data.result;
         setData(dataResult);
       } catch (error) {
-        if(error.response){
-          setError(error.response.data.message)
+        if (error.response) {
+          setError(error.response.data.message);
         }
       }
     };
@@ -54,12 +54,14 @@ const Home = () => {
       <div className="p-3 mx-5 my-5 w-75">
         <h5 className="text-center">Admins List</h5>
         <table className="table border shadow-sm">
-          <thead className="border">
-            <th className="w-20 border">Frst Name</th>
-            <th className="w-20 border">Last Name</th>
-            <th className="w-20 border">Email</th>
-            <th className="w-20 border">Role</th>
-            <th className="w-20 border">Actions</th>
+          <thead>
+            <tr>
+              <th className="w-20 border">Frst Name</th>
+              <th className="w-20 border">Last Name</th>
+              <th className="w-20 border">Email</th>
+              <th className="w-20 border">Role</th>
+              <th className="w-20 border">Actions</th>
+            </tr>
           </thead>
           <tbody>
             {data.map((element, index) => {
