@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import apiService from "../common/api.js";
 
 const Employees = () => {
+  const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
@@ -26,7 +27,7 @@ const Employees = () => {
     getAllEmployees();
   }, [updateDataState]);
 
-  const handleDelete = async (id) => {
+  const handleClickDelete = async (id) => {
     try {
       const dataResult = await apiService.deleteEmployee(id);
       if (dataResult.status === 200) {
@@ -63,26 +64,39 @@ const Employees = () => {
       <table className="table border">
         <thead>
           <tr>
+            <th className="border">Image</th>
             <th className="border">First Name</th>
             <th className="border">Last Name</th>
             <th className="border">Email</th>
             <th className="border">Address</th>
-            <th className="border">Action</th>
+            <th className="border">Actions</th>
           </tr>
         </thead>
         <tbody>
           {data.map((element, index) => {
             return (
               <tr key={index}>
+                <td>
+                  <img
+                    src={`http://localhost:3000/api/images/${element.image}`}
+                    alt="Image"
+                    className="employee_image"
+                  />
+                </td>
                 <td>{element.firstName}</td>
                 <td>{element.lastName}</td>
                 <td>{element.email}</td>
                 <td>{element.address}</td>
                 <td>
-                  <button className="btn btn-primary btn-sm me-2">edit</button>
+                  <button
+                    className="btn btn-primary btn-sm me-2"
+                    onClick={() => navigate(`edit/${element.employeeId}`)}
+                  >
+                    edit
+                  </button>
                   <button
                     className="btn btn-danger btn-sm"
-                    onClick={() => handleDelete(element.employeeId)}
+                    onClick={() => handleClickDelete(element.employeeId)}
                   >
                     delete
                   </button>

@@ -1,20 +1,26 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import apiService from "../common/api";
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import apiService from "../common/api.js";
 
-const AddEmployee = () => {
+const EditEmployee = () => {
+  const { id } = useParams();
   const navigate = useNavigate();
-  const [error, setError] = useState("");
+  const [data, setData] = useState({});
   const [errorValidation, setErrorValidation] = useState("");
-  const [data, setData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    address: "",
-    image: "",
-  });
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const getEmployee = async () => {
+      try {
+        const { data } = await apiService.getEmployee(id);
+        const dataResult = data.result;
+        setData(dataResult);
+      } catch (error) {
+        setError(error.response.data.message);
+      }
+    };
+    getEmployee();
+  }, []);
 
   const validateForm = () => {
     const newErrors = {};
@@ -39,19 +45,6 @@ const AddEmployee = () => {
       newErrors.email = "Email should be in a valid format";
     }
 
-    if (data.password.trim() === "") {
-      newErrors.password = "Password is required";
-    } else if (data.password.length < 6) {
-      newErrors.password = "Password must be at least 6 characters long";
-    }
-
-    if (data.confirmPassword.trim() === "") {
-      newErrors.confirmPassword = "ConfirmPassword is required";
-    } else if (data.password !== data.confirmPassword) {
-      newErrors.confirmPassword =
-        "Oops! It looks like the passwords don't match. Please make sure both passwords are the same.";
-    }
-
     if (data.address.trim() === "") {
       newErrors.address = "Address is required";
     }
@@ -64,21 +57,20 @@ const AddEmployee = () => {
 
     return Object.keys(newErrors).length === 0;
   };
-
+  console.log(data.image);
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       if (validateForm()) {
         const formData = new FormData();
         formData.append("firstName", data.firstName);
         formData.append("lastName", data.lastName);
         formData.append("email", data.email);
-        formData.append("password", data?.password);
         formData.append("address", data.address);
         formData.append("image", data.image);
 
-        const dataResult = await apiService.addEmployee(formData);
+        const dataResult = await apiService.editEmployee(id, formData);
+
         if (dataResult.status === 201) {
           navigate("/employees");
         }
@@ -92,12 +84,9 @@ const AddEmployee = () => {
   };
 
   return (
-    <div
-      className="d-flex justify-contet-center col-12"
-      onClick={() => setError("")}
-    >
+    <div className="d-flex justify-contet-center col-12">
       <div className="py-5 px-3 w-50 m-auto">
-        <h4 className="text-center">Add Employee</h4>
+        <h4 className="text-center">Edit Employee</h4>
         <form className="row g-2" onSubmit={handleSubmit}>
           <div className="col-12">
             <label htmlFor="inputFirstName1" className="form-label">
@@ -148,42 +137,6 @@ const AddEmployee = () => {
             )}
           </div>
           <div className="col-12">
-            <label htmlFor="inputPassword1" className="form-label">
-              Password
-            </label>
-            <input
-              onChange={(e) => setData({ ...data, password: e.target.value })}
-              type="password"
-              className="form-control"
-              value={data.password}
-              id="inputPassword1"
-              placeholder="Enter Password"
-            />
-            {errorValidation.password && (
-              <small className="text-danger">{errorValidation.password}</small>
-            )}
-          </div>
-          <div className="col-12">
-            <label htmlFor="inputPassword2" className="form-label">
-              Confirm Password
-            </label>
-            <input
-              onChange={(e) =>
-                setData({ ...data, confirmPassword: e.target.value })
-              }
-              type="password"
-              className="form-control"
-              value={data.confirmPassword}
-              id="inputPassword2"
-              placeholder="Confirm Password"
-            />
-            {errorValidation.confirmPassword && (
-              <small className="text-danger">
-                {errorValidation.confirmPassword}
-              </small>
-            )}
-          </div>
-          <div className="col-12">
             <label htmlFor="inputAddress" className="form-label">
               Address
             </label>
@@ -207,6 +160,7 @@ const AddEmployee = () => {
               onChange={(e) => setData({ ...data, image: e.target.files[0] })}
               type="file"
               className="form-control"
+            //   value={data.image}
               id="inputGroupFile04"
               placeholder="Select Image"
             />
@@ -216,10 +170,7 @@ const AddEmployee = () => {
           </div>
           <div className="text-danger small">{error && <p>{error}</p>}</div>
           <div className="d-flex justify-content-end">
-            <button
-              className="btn btn-light w-25 mx-1"
-              onClick={() => navigate(-1)}
-            >
+           <button className="btn btn-light w-25 mx-1" onClick={() => navigate(-1)}>
               Cancel
             </button>
             <button type="submit" className="btn btn-primary w-25 mx-1">
@@ -232,4 +183,4 @@ const AddEmployee = () => {
   );
 };
 
-export default AddEmployee;
+export default EditEmployee;
