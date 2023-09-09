@@ -7,6 +7,8 @@ import Home from "./pages/Home";
 import Employees from "./pages/Employees";
 import AddEmployee from "./pages/AddEmployee";
 import AdminProfile from "./pages/AdminProfile";
+import EditEmployee from "./pages/EditEmployee";
+import './style.css'
 
 const App = () => {
   return (
@@ -16,6 +18,7 @@ const App = () => {
           <Route index element={<Home />} />
           <Route path="employees" element={<Employees />} />
           <Route path="employees/add" element={<AddEmployee />} />
+          <Route path="employees/edit/:id" element={<EditEmployee />} />
           <Route path="admin-profile" element={<AdminProfile />} />
         </Route>
         <Route path="/login" element={<Login />} />

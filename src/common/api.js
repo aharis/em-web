@@ -6,28 +6,38 @@ const login = (data) => {
   return axios.post(`${baseUrl}/login`, data);
 };
 
-const getUsers = async() => {
-  return await axios.get(`${baseUrl}/users`)
-}
+const getUsers = async () => {
+  return await axios.get(`${baseUrl}/users`);
+};
 
 const addEmployee = async (data) => {
   return await axios.post(`${baseUrl}/employee/create`, data);
 };
 
 const getEmployees = async () => {
- return await axios.get(`${baseUrl}/employee`);
+  return await axios.get(`${baseUrl}/employee`);
 };
 
-const deleteEmployee = async(id) => {
-  return await axios.delete(`${baseUrl}/employee/${id}`)
-}
+const deleteEmployee = async (id) => {
+  return await axios.delete(`${baseUrl}/employee/${id}`);
+};
+
+const getEmployee = (id) => {
+  return axios.get(`${baseUrl}/employee/${id}`);
+};
+
+const editEmployee = async (id, data) => {
+  return await axios.post(`${baseUrl}/employee/${id}`, data);
+};
 
 const apiService = {
   login,
   getUsers,
   addEmployee,
   getEmployees,
-  deleteEmployee
+  deleteEmployee,
+  getEmployee,
+  editEmployee,
 };
 
 export default apiService;

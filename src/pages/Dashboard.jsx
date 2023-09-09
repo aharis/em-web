@@ -39,16 +39,19 @@ const Dashboard = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/admin-profile" className="nav-link px-0 align-middle">
-                <i className="fs-4 bi-person"></i>{" "}
-                  <span className="ms-1 d-none d-sm-inline">Admin peofile</span>{" "}
+                <Link
+                  to="/admin-profile"
+                  className="nav-link px-0 align-middle"
+                >
+                  <i className="fs-4 bi-person"></i>{" "}
+                  <span className="ms-1 d-none d-sm-inline">Admin profile</span>{" "}
                 </Link>
-              </li>             
+              </li>
             </ul>
           </div>
         </div>
         <div className="col py-3 px-10">
-        <Outlet />
+          <Outlet />
         </div>
       </div>
     </div>
