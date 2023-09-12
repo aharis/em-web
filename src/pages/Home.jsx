@@ -20,6 +20,10 @@ const Home = () => {
     getUsers();
   }, []);
 
+  const handleClickDelete = () => {
+    console.log("delete");
+  };
+
   return (
     <div>
       <div className="p-3 d-flex justify-content-around mt-3">
@@ -51,7 +55,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div className="p-3 mx-5 my-5 w-75">
+      <div className="p-3 mx-auto my-5 w-75">
         <h5 className="text-center">Admins List</h5>
         <table className="table border shadow-sm">
           <thead>
@@ -71,6 +75,20 @@ const Home = () => {
                   <td>{element.lastName}</td>
                   <td>{element.email}</td>
                   <td>{element.roles}</td>
+                  <td>
+                    <button
+                      className="btn btn-primary btn-sm me-2"
+                      onClick={() => console.log("edit")}
+                    >
+                      edit
+                    </button>
+                    <button
+                      className="btn btn-danger btn-sm"
+                      onClick={() => handleClickDelete(element.userId)}
+                    >
+                      delete
+                    </button>
+                  </td>
                 </tr>
               );
             })}

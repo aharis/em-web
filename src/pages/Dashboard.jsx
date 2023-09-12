@@ -1,9 +1,23 @@
-import React from "react";
-import { Link, Outlet } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 const Dashboard = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate('/login');
+    }
+  }, []);
+
+  const handleClickLogout = () => {
+    localStorage.clear();
+    navigate("/login");
+  };
+
   return (
     <div className="container-fluid">
       <div className="row flex-nowrap">
@@ -46,6 +60,13 @@ const Dashboard = () => {
                   <i className="fs-4 bi-person"></i>{" "}
                   <span className="ms-1 d-none d-sm-inline">Admin profile</span>{" "}
                 </Link>
+              </li>
+              <li
+                onClick={handleClickLogout}
+                className="nav-link px-0 align-middle"
+              >
+                <i className="fs-4 bi-power"></i>
+                <span className="ms-1 d-none d-sm-inline">Logout</span>
               </li>
             </ul>
           </div>

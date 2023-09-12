@@ -1,10 +1,11 @@
-import React, { useState } from "react";
-
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import apiService from "../common/api";
 
 import Image from "../assets/employee ms.jpeg";
 
 const Login = () => {
+  const navigate = useNavigate();
   const [error, setError] = useState("");
   const [values, setValues] = useState({
     email: "",
@@ -35,15 +36,35 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      if (values.email === "" || values.password === "")
+      if (values.email.trim() === "" || values.password.trim() === "")
         return setError("Email and password cannot be left blank.");
-      await apiService.login(values);
+      const { data } = await apiService.login(values);
+      const dataResult = data.result;
+
+      if (dataResult.token) {
+        const data = {
+          token: dataResult.token,
+          role: dataResult.role,
+        };
+
+        for (const key in data) {
+          localStorage.setItem(key, data[key]);
+        }
+        navigate("/");
+      }
     } catch (error) {
       if (error.response) {
         setError(error.response.data.message);
       }
     }
   };
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      navigate(-1);
+    }
+  }, []);
 
   return (
     <div className="vh-100" onClick={() => setError("")}>
