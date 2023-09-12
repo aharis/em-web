@@ -10,6 +10,10 @@ const getUsers = async () => {
   return await axios.get(`${baseUrl}/users`);
 };
 
+const deleteUser = async (userId) => {
+  await axios.delete(`${baseUrl}/users/${userId}`);
+};
+
 const addEmployee = async (data) => {
   return await axios.post(`${baseUrl}/employee/create`, data);
 };
@@ -38,6 +42,7 @@ const apiService = {
   deleteEmployee,
   getEmployee,
   editEmployee,
+  deleteUser,
 };
 
 export default apiService;
