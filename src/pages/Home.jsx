@@ -12,16 +12,34 @@ const Home = () => {
         const dataResult = data.result;
         setData(dataResult);
       } catch (error) {
-        if (error.response) {
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.message
+        ) {
           setError(error.response.data.message);
+        } else {
+          setError("An unexpected error occurred while getting users.");
         }
       }
     };
     getUsers();
   }, []);
 
-  const handleClickDelete = () => {
-    console.log("delete");
+  const handleClickDelete = async (userId) => {
+    try {
+      await apiService.deleteUser(userId);
+    } catch (error) {
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        setError(error.response.data.message);
+      } else {
+        setError("An unexpected error occurred while deleting the user.");
+      }
+    }
   };
 
   return (

@@ -38,8 +38,14 @@ const Employees = () => {
         }, 1500);
       }
     } catch (error) {
-      if (error.response) {
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
         setError(error.response.data.message);
+      } else {
+        setError("An unexpected error occurred while deleting the employee.");
       }
     }
   };
