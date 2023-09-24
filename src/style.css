@@ -3,3 +3,34 @@
   width: 40px;
   border-radius: 50%;
 }
+
+.user_image {
+  height: 180px;
+  width: 180px;
+  border-radius: 50%;
+}
+
+.info-box {
+  width: 20%;
+}
+
+.header {
+  height: 80px;
+  width: 100%;
+  box-shadow: 0px 4px 8px rgba(190, 187, 187, 0.8);
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.company-logo {
+  width: 100px;
+  height: 70px;
+  margin-left: 40px;
+  margin-top: 8px;
+}
+
+.typohraphy-style {
+  color: #1976d2 !important;
+}

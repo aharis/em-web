@@ -10,6 +10,10 @@ const getUsers = async () => {
   return await axios.get(`${baseUrl}/users`);
 };
 
+const getUser = async (userId) => {
+  return await axios.get(`${baseUrl}/users/${userId}`);
+};
+
 const deleteUser = async (userId) => {
   await axios.delete(`${baseUrl}/users/${userId}`);
 };
@@ -34,6 +38,18 @@ const editEmployee = async (id, data) => {
   return await axios.post(`${baseUrl}/employee/${id}`, data);
 };
 
+const adminCount = async () => {
+  return await axios.get(`${baseUrl}/adminCount`);
+};
+
+const employeeCount = async () => {
+  return await axios.get(`${baseUrl}/employeeCount`);
+};
+
+const getAllSalary = async () => {
+  return await axios.get(`${baseUrl}/allSalary`);
+};
+
 const apiService = {
   login,
   getUsers,
@@ -43,6 +59,10 @@ const apiService = {
   getEmployee,
   editEmployee,
   deleteUser,
+  getUser,
+  adminCount,
+  employeeCount,
+  getAllSalary,
 };
 
 export default apiService;

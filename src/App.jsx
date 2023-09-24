@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Login from "./pages/Login";
@@ -8,20 +8,25 @@ import Employees from "./pages/Employees";
 import AddEmployee from "./pages/AddEmployee";
 import AdminProfile from "./pages/AdminProfile";
 import EditEmployee from "./pages/EditEmployee";
-import './style.css'
+import Header from "./common/Header";
+
+import "./style.css";
 
 const App = () => {
+  const [isVisible, setIsVisible] = useState(true);
+
   return (
     <BrowserRouter>
+      {isVisible && <Header />}
       <Routes>
-        <Route path="/" element={<Dashboard />}>
+        <Route path="/" element={<Dashboard setIsVisible={setIsVisible} />}>
           <Route index element={<Home />} />
           <Route path="employees" element={<Employees />} />
           <Route path="employees/add" element={<AddEmployee />} />
           <Route path="employees/edit/:id" element={<EditEmployee />} />
           <Route path="admin-profile" element={<AdminProfile />} />
         </Route>
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login setIsVisible={setIsVisible} />} />
       </Routes>
     </BrowserRouter>
   );
