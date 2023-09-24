@@ -35,7 +35,7 @@ const AdminProfile = () => {
           <div className="col-md-4">
             {/* Admin Image */}
             <div className="text-center">
-              {/* <img src={Image} alt="Admin" className="img-fluid user_image" /> */}
+              <img src={Image} alt="Admin" className="img-fluid user_image" />
             </div>
             <div className="text-center my-3">
               <p className="my-1">{data[0]?.firstName}</p>
