@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import apiService from "../common/api.js";
+import CustomButton from "../components/button/CustomButton.jsx";
 
 const EditEmployee = () => {
   const { id } = useParams();
@@ -170,12 +171,12 @@ const EditEmployee = () => {
           </div>
           <div className="text-danger small">{error && <p>{error}</p>}</div>
           <div className="d-flex justify-content-end">
-           <button className="btn btn-light w-25 mx-1" onClick={() => navigate(-1)}>
+           <CustomButton className="btn btn-light w-25 mx-1" onClick={() => navigate(-1)}>
               Cancel
-            </button>
-            <button type="submit" className="btn btn-primary w-25 mx-1">
+            </CustomButton>
+            <CustomButton type="submit" className="btn btn-primary w-25 mx-1">
               Submit
-            </button>
+            </CustomButton>
           </div>
         </form>
       </div>

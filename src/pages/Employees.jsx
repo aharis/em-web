@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import CustomButton from "../components/button/CustomButton.jsx";
 import apiService from "../common/api.js";
 
 const Employees = () => {
@@ -63,9 +64,12 @@ const Employees = () => {
         <h3>Employee List</h3>
       </div>
       <div className="d-flex justify-content-end my-1">
-        <Link to="/employees/add" className="d-flex btn btn-success mb-2 ">
+        <CustomButton
+          onClick={() => navigate("/employees/add")}
+          className="d-flex btn btn-success mb-2 "
+        >
           Add employee
-        </Link>
+        </CustomButton>
       </div>
       <table className="table border">
         <thead>
@@ -94,18 +98,18 @@ const Employees = () => {
                 <td>{element.email}</td>
                 <td>{element.address}</td>
                 <td>
-                  <button
+                  <CustomButton
                     className="btn btn-primary btn-sm me-2"
                     onClick={() => navigate(`edit/${element.employeeId}`)}
                   >
                     edit
-                  </button>
-                  <button
+                  </CustomButton>
+                  <CustomButton
                     className="btn btn-danger btn-sm"
                     onClick={() => handleClickDelete(element.employeeId)}
                   >
                     delete
-                  </button>
+                  </CustomButton>
                 </td>
               </tr>
             );

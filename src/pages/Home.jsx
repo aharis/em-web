@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import apiService from "../common/api";
+import CustomButton from "../components/button/CustomButton";
 
 const Home = () => {
   const [data, setData] = useState([]);
@@ -162,18 +163,18 @@ const Home = () => {
                   <td>{element.email}</td>
                   <td>{element.roles}</td>
                   <td>
-                    <button
+                    <CustomButton
                       className="btn btn-primary btn-sm me-2"
                       onClick={() => console.log("edit")}
                     >
                       edit
-                    </button>
-                    <button
+                    </CustomButton>
+                    <CustomButton
                       className="btn btn-danger btn-sm"
                       onClick={() => handleClickDelete(element.userId)}
                     >
                       delete
-                    </button>
+                    </CustomButton>
                   </td>
                 </tr>
               );

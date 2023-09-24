@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import apiService from "../common/api";
 
 import Image from "../assets/employee ms.jpeg";
+import CustomButton from "../components/button/CustomButton";
 
 const Login = ({ setIsVisible }) => {
   const navigate = useNavigate();
@@ -110,10 +111,10 @@ const Login = ({ setIsVisible }) => {
             {error && (
               <p className="small text-danger mb-2 text-center">{error}</p>
             )}
-            <button type="submit" className="btn btn-success w-100 rounded-0">
+            <CustomButton type="submit" className="btn btn-success w-100 rounded-0">
               {" "}
               Log in
-            </button>
+            </CustomButton>
 
             <p className="small text-center mt-1">
               You are agree to our terms and polices
