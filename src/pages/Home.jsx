@@ -4,6 +4,9 @@ import apiService from "../common/api";
 const Home = () => {
   const [data, setData] = useState([]);
   const [error, setError] = useState("");
+  const [adminCount, setAdminCount] = useState([]);
+  const [employeeCount, setEmployeeCount] = useState([]);
+  const [allSalary, setAllSalary] = useState(0);
 
   useEffect(() => {
     const getUsers = async () => {
@@ -23,7 +26,63 @@ const Home = () => {
         }
       }
     };
+
+    const employeeCount = async () => {
+      try {
+        const { data } = await apiService.employeeCount();
+        const dataResult = data.result;
+        setEmployeeCount(dataResult);
+      } catch (error) {
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.message
+        ) {
+          setError(error.response.data.message);
+        } else {
+          setError("An unexpected error occurred while deleting the user.");
+        }
+      }
+    };
+
+    const userCount = async () => {
+      try {
+        const { data } = await apiService.adminCount();
+        setAdminCount(data);
+      } catch (error) {
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.message
+        ) {
+          setError(error.response.data.message);
+        } else {
+          setError("An unexpected error occurred while deleting the user.");
+        }
+      }
+    };
+
+    const getAllSalary = async () => {
+      try {
+        const { data } = await apiService.getAllSalary();
+        const dataResult = data.result;
+        setAllSalary(dataResult);
+      } catch (error) {
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.message
+        ) {
+          setError(error.response.data.message);
+        } else {
+          setError("An unexpected error occurred while deleting the user.");
+        }
+      }
+    };
     getUsers();
+    userCount();
+    employeeCount();
+    getAllSalary();
   }, []);
 
   const handleClickDelete = async (userId) => {
@@ -44,32 +103,41 @@ const Home = () => {
 
   return (
     <div>
-      <div className="p-3 d-flex justify-content-around mt-3">
-        <div className="px-3 pt-2 pb-3 border shadow-sm w-25">
+      <div className="p-3 d-flex justify-content-around mt-3 ">
+        <div className="px-3 pt-2 pb-3 border shadow-sm info-box">
+          <div className="text-center pb-1">
+            <h4>Superadmin</h4>
+          </div>
+          <hr />
+          <div className="">
+            <h5>Total: {adminCount?.superadmin}</h5>
+          </div>
+        </div>
+        <div className="px-3 pt-2 pb-3 border shadow-sm info-box">
           <div className="text-center pb-1">
             <h4>Admin</h4>
           </div>
           <hr />
           <div className="">
-            <h5>Total: {}</h5>
+            <h5>Total: {adminCount?.admin}</h5>
           </div>
         </div>
-        <div className="px-3 pt-2 pb-3 border shadow-sm w-25">
+        <div className="px-3 pt-2 pb-3 border shadow-sm info-box">
           <div className="text-center pb-1">
             <h4>Employee</h4>
           </div>
           <hr />
           <div className="">
-            <h5>Total: {}</h5>
+            <h5>Total: {employeeCount[0]?.employee}</h5>
           </div>
         </div>
-        <div className="px-3 pt-2 pb-3 border shadow-sm w-25">
+        <div className="px-3 pt-2 pb-3 border shadow-sm info-box">
           <div className="text-center pb-1">
             <h4>Salary</h4>
           </div>
           <hr />
           <div className="">
-            <h5>Total: {}</h5>
+            <h5>Total: {allSalary}</h5>
           </div>
         </div>
       </div>
@@ -78,11 +146,11 @@ const Home = () => {
         <table className="table border shadow-sm">
           <thead>
             <tr>
-              <th className="w-20 border">Frst Name</th>
-              <th className="w-20 border">Last Name</th>
-              <th className="w-20 border">Email</th>
-              <th className="w-20 border">Role</th>
-              <th className="w-20 border">Actions</th>
+              <th className="border">Frst Name</th>
+              <th className="border">Last Name</th>
+              <th className="border">Email</th>
+              <th className="border">Role</th>
+              <th className="border">Actions</th>
             </tr>
           </thead>
           <tbody>

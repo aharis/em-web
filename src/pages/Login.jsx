@@ -4,7 +4,7 @@ import apiService from "../common/api";
 
 import Image from "../assets/employee ms.jpeg";
 
-const Login = () => {
+const Login = ({ setIsVisible }) => {
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const [values, setValues] = useState({
@@ -40,11 +40,11 @@ const Login = () => {
         return setError("Email and password cannot be left blank.");
       const { data } = await apiService.login(values);
       const dataResult = data.result;
-
       if (dataResult.token) {
         const data = {
           token: dataResult.token,
           role: dataResult.role,
+          userId: dataResult.userId,
         };
 
         for (const key in data) {
@@ -61,6 +61,7 @@ const Login = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
+    setIsVisible(false);
     if (token) {
       navigate(-1);
     }
