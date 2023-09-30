@@ -1,80 +1,23 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import apiService from "../common/api.js";
-import CustomButton from "../components/button/CustomButton.jsx";
 
-const EditEmployee = () => {
+import CustomButton from "../components/button/CustomButton";
+
+const EditUser = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [data, setData] = useState({});
+  const [data, setData] = useState([]);
   const [errorValidation, setErrorValidation] = useState("");
   const [error, setError] = useState("");
- 
-  const validateForm = () => {
-    const newErrors = {};
 
-    if (data.firstName.trim() === "") {
-      newErrors.firstName = "First Name is required";
-    } else if (!/^[A-Za-zćđčš\s]+$/.test(data.firstName)) {
-      newErrors.firstName = "First Name should contain only letters and spaces";
-    }
-
-    if (data.lastName.trim() === "") {
-      newErrors.lastName = "Last Name is required";
-    } else if (!/^[A-Za-zćđčš\s]+$/.test(data.lastName)) {
-      newErrors.lastName = "Last Name should contain only letters and spaces";
-    }
-
-    if (data.email.trim() === "") {
-      newErrors.email = "Email is required";
-    } else if (
-      !/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/.test(data.email)
-    ) {
-      newErrors.email = "Email should be in a valid format";
-    }
-
-    if (data.address.trim() === "") {
-      newErrors.address = "Address is required";
-    }
-
-    if (data.image === "") {
-      newErrors.image = "Image is required";
-    }
-
-    setErrorValidation(newErrors);
-
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      if (validateForm()) {
-        const formData = new FormData();
-        formData.append("firstName", data.firstName);
-        formData.append("lastName", data.lastName);
-        formData.append("email", data.email);
-        formData.append("address", data.address);
-        formData.append("image", data.image);
-
-        const dataResult = await apiService.editEmployee(id, formData);
-
-        if (dataResult.status === 201) {
-          navigate("/employees");
-        }
-        setError("");
-      }
-    } catch (error) {
-      if (error.response) {
-        setError(error.response.data.message);
-      }
-    }
+  const handleSubmit = () => {
+    console.log("Submit edit form");
   };
 
   return (
     <div className="d-flex justify-contet-center col-12">
       <div className="py-5 px-3 w-50 m-auto">
-        <h4 className="text-center">Edit Employee</h4>
+        <h4 className="text-center">Edit User</h4>
         <form className="row g-2" onSubmit={handleSubmit}>
           <div className="col-12">
             <label htmlFor="inputFirstName1" className="form-label">
@@ -141,6 +84,22 @@ const EditEmployee = () => {
             )}
           </div>
           <div className="col-12">
+            <label htmlFor="inputAddress" className="form-label">
+              Role
+            </label>
+            <input
+              onChange={(e) => setData({ ...data, role: e.target.value })}
+              type="text"
+              className="form-control"
+              value={location.state.roles}
+              id="inputROle"
+              placeholder="Role"
+            />
+            {errorValidation.role && (
+              <small className="text-danger">{errorValidation.role}</small>
+            )}
+          </div>
+          <div className="col-12">
             <label htmlFor="inputGroupFile04" className="form-label">
               Select image
             </label>
@@ -158,7 +117,10 @@ const EditEmployee = () => {
           </div>
           <div className="text-danger small">{error && <p>{error}</p>}</div>
           <div className="d-flex justify-content-end">
-           <CustomButton className="btn btn-light w-25 mx-1" onClick={() => navigate(-1)}>
+            <CustomButton
+              className="btn btn-light w-25 mx-1"
+              onClick={() => navigate(-1)}
+            >
               Cancel
             </CustomButton>
             <CustomButton type="submit" className="btn btn-primary w-25 mx-1">
@@ -171,4 +133,4 @@ const EditEmployee = () => {
   );
 };
 
-export default EditEmployee;
+export default EditUser;

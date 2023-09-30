@@ -1,30 +1,35 @@
 import React, { useState, useEffect } from "react";
 import apiService from "../common/api";
-import CustomButton from "../components/button/CustomButton";
+import CustomButton from "../components/button/CustomButton.jsx";
+import { ROLES } from "../components/roles/roles";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [error, setError] = useState("");
   const [adminCount, setAdminCount] = useState([]);
   const [employeeCount, setEmployeeCount] = useState([]);
   const [allSalary, setAllSalary] = useState(0);
+  const [logedRole, setLogedRole] = useState("");
+  const [logedUserId, setLogedUserId] = useState("");
 
   useEffect(() => {
     const getUsers = async () => {
       try {
+        const userLogedRole = localStorage.getItem("role");
+        const userId = localStorage.getItem("userId");
+        setLogedRole(userLogedRole);
+        setLogedUserId(userId);
+
         const { data } = await apiService.getUsers();
         const dataResult = data.result;
         setData(dataResult);
       } catch (error) {
-        if (
-          error.response &&
-          error.response.data &&
-          error.response.data.message
-        ) {
-          setError(error.response.data.message);
-        } else {
-          setError("An unexpected error occurred while getting users.");
-        }
+        const errorMessage =
+          error.response?.data?.message ||
+          "An unexpected error occurred while getting users.";
+        setError(errorMessage);
       }
     };
 
@@ -34,15 +39,10 @@ const Home = () => {
         const dataResult = data.result;
         setEmployeeCount(dataResult);
       } catch (error) {
-        if (
-          error.response &&
-          error.response.data &&
-          error.response.data.message
-        ) {
-          setError(error.response.data.message);
-        } else {
-          setError("An unexpected error occurred while deleting the user.");
-        }
+        const errorMessage =
+          error.response?.data?.message ||
+          "An unexpected error occurred while getting employees count.";
+        setError(errorMessage);
       }
     };
 
@@ -51,15 +51,10 @@ const Home = () => {
         const { data } = await apiService.adminCount();
         setAdminCount(data);
       } catch (error) {
-        if (
-          error.response &&
-          error.response.data &&
-          error.response.data.message
-        ) {
-          setError(error.response.data.message);
-        } else {
-          setError("An unexpected error occurred while deleting the user.");
-        }
+        const errorMessage =
+          error.response?.data?.message ||
+          "An unexpected error occurred while getting users count.";
+        setError(errorMessage);
       }
     };
 
@@ -69,17 +64,13 @@ const Home = () => {
         const dataResult = data.result;
         setAllSalary(dataResult);
       } catch (error) {
-        if (
-          error.response &&
-          error.response.data &&
-          error.response.data.message
-        ) {
-          setError(error.response.data.message);
-        } else {
-          setError("An unexpected error occurred while deleting the user.");
-        }
+        const errorMessage =
+          error.response?.data?.message ||
+          "An unexpected error occurred while getting all salary.";
+        setError(errorMessage);
       }
     };
+    
     getUsers();
     userCount();
     employeeCount();
@@ -90,16 +81,15 @@ const Home = () => {
     try {
       await apiService.deleteUser(userId);
     } catch (error) {
-      if (
-        error.response &&
-        error.response.data &&
-        error.response.data.message
-      ) {
-        setError(error.response.data.message);
-      } else {
-        setError("An unexpected error occurred while deleting the user.");
-      }
+      const errorMessage =
+        error.response?.data?.message ||
+        "An unexpected error occurred while deleting the user.";
+      setError(errorMessage);
     }
+  };
+
+  const handleClickEdit = (state) => {
+    navigate("/edit", { state: state });
   };
 
   return (
@@ -143,7 +133,7 @@ const Home = () => {
         </div>
       </div>
       <div className="p-3 mx-auto my-5 w-75">
-        <h5 className="text-center">Admins List</h5>
+        <h5 className="text-center">Admins List</h5>        
         <table className="table border shadow-sm">
           <thead>
             <tr>
@@ -165,12 +155,24 @@ const Home = () => {
                   <td>
                     <CustomButton
                       className="btn btn-primary btn-sm me-2"
-                      onClick={() => console.log("edit")}
+                      disabled={
+                        logedRole === ROLES.Admin ||
+                        Number(logedUserId) === element.userId
+                          ? true
+                          : false
+                      }
+                      onClick={() => handleClickEdit(element)}
                     >
                       edit
                     </CustomButton>
                     <CustomButton
                       className="btn btn-danger btn-sm"
+                      disabled={
+                        logedRole === ROLES.Admin ||
+                        Number(logedUserId) === element.userId
+                          ? true
+                          : false
+                      }
                       onClick={() => handleClickDelete(element.userId)}
                     >
                       delete

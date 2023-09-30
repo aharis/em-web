@@ -9,6 +9,7 @@ import AddEmployee from "./pages/AddEmployee";
 import AdminProfile from "./pages/AdminProfile";
 import EditEmployee from "./pages/EditEmployee";
 import Header from "./common/Header";
+import EditUser from "./pages/EditUser";
 
 import "./style.css";
 
@@ -23,7 +24,8 @@ const App = () => {
           <Route index element={<Home />} />
           <Route path="employees" element={<Employees />} />
           <Route path="employees/add" element={<AddEmployee />} />
-          <Route path="employees/edit/:id" element={<EditEmployee />} />
+          <Route path="employees/edit" element={<EditEmployee />} />
+          <Route path="/edit" element={<EditUser />} />
           <Route path="admin-profile" element={<AdminProfile />} />
         </Route>
         <Route path="/login" element={<Login setIsVisible={setIsVisible} />} />
