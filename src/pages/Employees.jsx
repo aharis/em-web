@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import CustomButton from "../components/button/CustomButton.jsx";
+import { ROLES } from "../components/roles/roles";
 import apiService from "../common/api.js";
 
 const Employees = () => {
@@ -9,6 +10,8 @@ const Employees = () => {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const [updateDataState, setUpdateDataState] = useState(false);
+
+  const userLogedRole = localStorage.getItem("role");
 
   useEffect(() => {
     const getAllEmployees = async () => {
@@ -49,6 +52,14 @@ const Employees = () => {
         setError("An unexpected error occurred while deleting the employee.");
       }
     }
+  };
+
+  const handleClickEdit = (state) => {
+    navigate("/employees/edit", { state: state });
+  };
+
+  const handleClickPermission = () => {
+    console.log("Change permission");
   };
 
   return (
@@ -100,15 +111,22 @@ const Employees = () => {
                 <td>
                   <CustomButton
                     className="btn btn-primary btn-sm me-2"
-                    onClick={() => navigate(`edit/${element.employeeId}`)}
+                    onClick={() => handleClickEdit(element)}
                   >
                     edit
                   </CustomButton>
                   <CustomButton
-                    className="btn btn-danger btn-sm"
+                    className="btn btn-danger btn-sm me-2"
                     onClick={() => handleClickDelete(element.employeeId)}
                   >
                     delete
+                  </CustomButton>
+                  <CustomButton
+                    className="btn btn-info btn-sm"
+                    disabled={userLogedRole === ROLES.Admin ? true : false}
+                    onClick={() => handleClickPermission(element.employeeId)}
+                  >
+                    permission
                   </CustomButton>
                 </td>
               </tr>
