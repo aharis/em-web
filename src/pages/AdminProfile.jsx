@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
+import useAuth from "../hooks/useAuth";
 import apiService from "../common/api";
 import Image from "../assets/images.jpg";
 
 const AdminProfile = () => {
+  const { auth } = useAuth();
   const [data, setData] = useState([]);
   const [error, setError] = useState("");
-  const userId = localStorage.getItem("userId");
+  const userId = auth.user.userId;
 
   useEffect(() => {
     const getUser = async () => {

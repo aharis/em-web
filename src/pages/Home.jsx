@@ -1,27 +1,23 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import apiService from "../common/api";
 import CustomButton from "../components/button/CustomButton.jsx";
+import useAuth from "../hooks/useAuth";
 import { ROLES } from "../components/roles/roles";
-import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const navigate = useNavigate();
+  const {auth, setAuth} = useAuth();
   const [data, setData] = useState([]);
   const [error, setError] = useState("");
   const [adminCount, setAdminCount] = useState([]);
   const [employeeCount, setEmployeeCount] = useState([]);
-  const [allSalary, setAllSalary] = useState(0);
-  const [logedRole, setLogedRole] = useState("");
-  const [logedUserId, setLogedUserId] = useState("");
+  const [allSalary, setAllSalary] = useState(0); 
+  const logedUser = auth.user;
 
   useEffect(() => {
     const getUsers = async () => {
-      try {
-        const userLogedRole = localStorage.getItem("role");
-        const userId = localStorage.getItem("userId");
-        setLogedRole(userLogedRole);
-        setLogedUserId(userId);
-
+      try {      
         const { data } = await apiService.getUsers();
         const dataResult = data.result;
         setData(dataResult);
@@ -89,7 +85,7 @@ const Home = () => {
   };
 
   const handleClickEdit = (state) => {
-    navigate("/edit", { state: state });
+    navigate("/dashboard/edit", { state: state });
   };
 
   return (
@@ -156,8 +152,8 @@ const Home = () => {
                     <CustomButton
                       className="btn btn-primary btn-sm me-2"
                       disabled={
-                        logedRole === ROLES.Admin ||
-                        Number(logedUserId) === element.userId
+                        logedUser.roles === ROLES.Admin ||
+                        Number(logedUser.userId) === element.userId
                           ? true
                           : false
                       }
@@ -168,8 +164,8 @@ const Home = () => {
                     <CustomButton
                       className="btn btn-danger btn-sm"
                       disabled={
-                        logedRole === ROLES.Admin ||
-                        Number(logedUserId) === element.userId
+                        logedUser.roles === ROLES.Admin ||
+                        Number(logedUser.userId) === element.userId
                           ? true
                           : false
                       }

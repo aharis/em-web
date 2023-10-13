@@ -4,9 +4,11 @@ import apiService from "../common/api";
 
 import Image from "../assets/employee ms.jpeg";
 import CustomButton from "../components/button/CustomButton";
+import useAuth from "../hooks/useAuth";
 
 const Login = ({ setIsVisible }) => {
   const navigate = useNavigate();
+  const { setAuth } = useAuth();
   const [error, setError] = useState("");
   const [values, setValues] = useState({
     email: "",
@@ -41,17 +43,16 @@ const Login = ({ setIsVisible }) => {
         return setError("Email and password cannot be left blank.");
       const { data } = await apiService.login(values);
       const dataResult = data.result;
-      if (dataResult.token) {
+      if (dataResult.token && dataResult.user) {
         const data = {
           token: dataResult.token,
-          role: dataResult.role,
-          userId: dataResult.userId,
+          user: dataResult.user,
         };
-
         for (const key in data) {
-          localStorage.setItem(key, data[key]);
+          localStorage.setItem(key, JSON.stringify(data[key]));
         }
-        navigate("/");
+        setAuth({ user: dataResult.user, token: dataResult.token });
+        navigate("/dashboard");
       }
     } catch (error) {
       if (error.response) {
@@ -60,12 +61,8 @@ const Login = ({ setIsVisible }) => {
     }
   };
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    setIsVisible(false);
-    if (token) {
-      navigate(-1);
-    }
+  useEffect(() => {  
+  setIsVisible(false);
   }, []);
 
   return (
@@ -111,7 +108,10 @@ const Login = ({ setIsVisible }) => {
             {error && (
               <p className="small text-danger mb-2 text-center">{error}</p>
             )}
-            <CustomButton type="submit" className="btn btn-success w-100 rounded-0">
+            <CustomButton
+              type="submit"
+              className="btn btn-success w-100 rounded-0"
+            >
               {" "}
               Log in
             </CustomButton>
