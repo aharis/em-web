@@ -55,7 +55,7 @@ const Employees = () => {
   };
 
   const handleClickEdit = (state) => {
-    navigate("/employees/edit", { state: state });
+    navigate("/dashboard/employees/edit", { state: state });
   };
 
   const handleClickPermission = () => {
@@ -76,7 +76,7 @@ const Employees = () => {
       </div>
       <div className="d-flex justify-content-end my-1">
         <CustomButton
-          onClick={() => navigate("/employees/add")}
+          onClick={() => navigate("/dashboard/employees/add")}
           className="d-flex btn btn-success mb-2 "
         >
           Add employee

@@ -1,20 +1,18 @@
 import React, { useEffect } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
-
+import useAuth from "../hooks/useAuth";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 const Dashboard = ({ setIsVisible }) => {
+  const { auth, setAuth } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
     setIsVisible(true);
-    const token = localStorage.getItem("token");
-    if (!token) {
-      navigate("/login");
-    }
   }, []);
 
   const handleClickLogout = () => {
+    setAuth({});
     localStorage.clear();
     navigate("/login");
   };
@@ -33,7 +31,7 @@ const Dashboard = ({ setIsVisible }) => {
             >
               <li>
                 <Link
-                  to="/"
+                  to="/dashboard"
                   data-bs-toggle="collapse"
                   className="nav-link px-0 align-middle typohraphy-style"
                 >
@@ -44,7 +42,7 @@ const Dashboard = ({ setIsVisible }) => {
 
               <li>
                 <Link
-                  to="/employees"
+                  to="/dashboard/employees"
                   className="nav-link px-0 align-middle typohraphy-style"
                 >
                   <i className="fs-4 bi-people"></i>{" "}
@@ -55,7 +53,7 @@ const Dashboard = ({ setIsVisible }) => {
               </li>
               <li>
                 <Link
-                  to="/admin-profile"
+                  to="/dashboard/admin-profile"
                   className="nav-link px-0 align-middle typohraphy-style"
                 >
                   <i className="fs-4 bi-person"></i>{" "}

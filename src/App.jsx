@@ -10,7 +10,9 @@ import AdminProfile from "./pages/AdminProfile";
 import EditEmployee from "./pages/EditEmployee";
 import Header from "./common/Header";
 import EditUser from "./pages/EditUser";
-
+import Redirect from "./components/auth/Redirect.jsx"
+import CheckIfLoged from "./components/auth/CheckIfLoged";
+import ProtectedRoute from "./components/auth/ProtecterdRoute.";
 import "./style.css";
 
 const App = () => {
@@ -19,16 +21,20 @@ const App = () => {
   return (
     <BrowserRouter>
       {isVisible && <Header />}
+      <ProtectedRoute />
       <Routes>
-        <Route path="/" element={<Dashboard setIsVisible={setIsVisible} />}>
+			<Route path="/" element={<Redirect />} />
+      <Route element={<CheckIfLoged />}>
+      <Route path="/login" element={<Login setIsVisible={setIsVisible} />} />
+			</Route>
+        <Route path="dashboard" element={<Dashboard setIsVisible={setIsVisible} />}>
           <Route index element={<Home />} />
-          <Route path="employees" element={<Employees />} />
-          <Route path="employees/add" element={<AddEmployee />} />
-          <Route path="employees/edit" element={<EditEmployee />} />
-          <Route path="/edit" element={<EditUser />} />
-          <Route path="admin-profile" element={<AdminProfile />} />
+          <Route path="/dashboard/employees" element={<Employees />} />
+          <Route path="/dashboard/employees/add" element={<AddEmployee />} />
+          <Route path="/dashboard/employees/edit" element={<EditEmployee />} />
+          <Route path="/dashboard/edit" element={<EditUser />} />
+          <Route path="/dashboard/admin-profile" element={<AdminProfile />} />
         </Route>
-        <Route path="/login" element={<Login setIsVisible={setIsVisible} />} />
       </Routes>
     </BrowserRouter>
   );

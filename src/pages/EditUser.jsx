@@ -119,7 +119,7 @@ const EditUser = () => {
           <div className="d-flex justify-content-end">
             <CustomButton
               className="btn btn-light w-25 mx-1"
-              onClick={() => navigate(-1)}
+              onClick={() => navigate('/dashboard')}
             >
               Cancel
             </CustomButton>
