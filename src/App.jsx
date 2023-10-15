@@ -13,6 +13,8 @@ import EditUser from "./pages/EditUser";
 import Redirect from "./components/auth/Redirect.jsx"
 import CheckIfLoged from "./components/auth/CheckIfLoged";
 import ProtectedRoute from "./components/auth/ProtecterdRoute.";
+import NoMatchRoute from "./components/NoMatchRoute";
+
 import "./style.css";
 
 const App = () => {
@@ -35,6 +37,7 @@ const App = () => {
           <Route path="/dashboard/edit" element={<EditUser />} />
           <Route path="/dashboard/admin-profile" element={<AdminProfile />} />
         </Route>
+        <Route path="*" element={<NoMatchRoute />} />
       </Routes>
     </BrowserRouter>
   );
